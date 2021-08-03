@@ -4,9 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const helmet = require('helmet')
+require('./config/database')
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var attractionsRouter = require('./routes/attractionsRoutes');
+
 
 var app = express();
 app.use(helmet())
@@ -17,8 +18,26 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
+app.use(function (req, res, next) {
+
+  const allowedOrigins = ['http://localhost:3000',];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+       res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+   res.setHeader('X-Content-Type-Options', 'nosniff');
+   res.setHeader('X-XSS-Protection', '1; mode=block');
+   res.setHeader('X-Frame-Options', 'DENY');
+   res.setHeader('Access-Control-Allow-Credentials', 'true');
+   res.setHeader('Access-Control-Allow-Headers', 'Authorization');
+   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  next();
+});
+
+
+app.use('/', attractionsRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

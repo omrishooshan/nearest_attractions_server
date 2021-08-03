@@ -1,13 +1,13 @@
-let mongoose = require("mongoose");
-mongoose.connect('mongodb://localhost:27017/itsafe'); //for local host 
+let mongoose = require('mongoose')
 
 let Schema = mongoose.Schema;
 
 let AttractionsSchema = new Schema({
+    Id:Number,
   Name: String,
   ShortDescription: String,
   FullDescription: String,
-  VendorId: String,
+  VendorId: Number,
   Vendor_Name: String,
   Product_Url: String,
   Accessibility: String,
@@ -16,6 +16,19 @@ let AttractionsSchema = new Schema({
   Blue_Flag: String,
   City: String,
   Diving_beach: String,
+  Email:String,
+  Notes:String,
+  Notes_for_opening_hours:String,
+  Opening_Hours:String,
+  Parking:String,
+  Phone:String,
+  Region:String,
+  Scheduled_visits:String,
+  Suitable_for_Children:String,
+  Surfing_beach:String,
+  URL:String,
+  X:Number,
+  Y:Number
 });
 
 module.exports = mongoose.model("Attractions", AttractionsSchema);
